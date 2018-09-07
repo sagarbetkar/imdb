@@ -14,6 +14,6 @@ const tvSchema = new mongoose.Schema({
   modifiedAt: Date
 });
 
-const Tv= mongoose.model('Tv', TvSchema);
+const Tv= mongoose.model('Tv', tvSchema);
 
 module.exports = Tv;
