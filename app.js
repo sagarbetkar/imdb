@@ -38,5 +38,23 @@ app.get('/api/v1/users/:id', userController.getUserById);
 app.put('/api/v1/users/:id', userController.updateUserById);
 app.delete('/api/v1/users/:id', userController.deleteUserById);
 
+app.post('/api/v1/movies', movieController.postNewMovie);
+app.get('/api/v1/movies', movieController.getAllMovies);
+app.get('/api/v1/movies/:id', movieController.getMovieById);
+app.put('/api/v1/movies/:id', movieController.updateMovieById);
+app.delete('/api/v1/movies/:id', movieController.deleteMovieById);
+
+app.post('/api/v1/tv', tvController.postNewTv);
+app.get('/api/v1/tv', tvController.getAllTv);
+app.get('/api/v1/tv/:id', tvController.getTvById);
+app.put('/api/v1/tv/:id', tvController.updateTvById);
+app.delete('/api/v1/tv/:id', tvController.deleteTvById);
+
+app.post('/api/v1/celebs', celebController.postNewCeleb);
+app.get('/api/v1/celebs', celebController.getAllCelebs);
+app.get('/api/v1/celebs/:id', celebController.getCelebById);
+app.put('/api/v1/celebs/:id', celebController.updateCelebById);
+app.delete('/api/v1/celebs/:id', celebController.deleteCelebById);
+
 module.exports = app;
 app.listen(2611, () => console.log('Express server at 2611'));
