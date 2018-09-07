@@ -108,7 +108,7 @@ exports.updateCelebById = (req, res) => {
   });
 };
 
-exports.deleteCelebById = (req, res) => {
+exports.deleteCelebById  = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.id
   }, (error, deleteId) => {

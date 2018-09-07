@@ -56,5 +56,11 @@ app.get('/api/v1/celebs/:id', celebController.getCelebById);
 app.put('/api/v1/celebs/:id', celebController.updateCelebById);
 app.delete('/api/v1/celebs/:id', celebController.deleteCelebById);
 
+app.post('/api/v1/photos', photoController.postNewPhoto);
+app.get('/api/v1/photos', photoController.getAllPhotos);
+app.get('/api/v1/photos/:id', photoController.getPhotoById);
+app.put('/api/v1/photos/:id', photoController.updatepPhotoById);
+app.delete('/api/v1/photos/:id', photoController.deletePhotoById);
+
 module.exports = app;
 app.listen(2611, () => console.log('Express server at 2611'));
