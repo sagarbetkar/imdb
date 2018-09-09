@@ -56,11 +56,17 @@ app.get('/api/v1/celebs/:id', celebController.getCelebById);
 app.put('/api/v1/celebs/:id', celebController.updateCelebById);
 app.delete('/api/v1/celebs/:id', celebController.deleteCelebById);
 
-app.post('/api/v1/photos', photoController.postNewPhoto);
-app.get('/api/v1/photos', photoController.getAllPhotos);
-app.get('/api/v1/photos/:id', photoController.getPhotoById);
-app.put('/api/v1/photos/:id', photoController.updatepPhotoById);
-app.delete('/api/v1/photos/:id', photoController.deletePhotoById);
+app.post('/api/v1/photos', photoController.postNewShot);
+app.get('/api/v1/photos', photoController.getAllShots);
+app.get('/api/v1/photos/:id', photoController.getShotById);
+app.put('/api/v1/photos/:id', photoController.updateShotById);
+app.delete('/api/v1/photos/:id', photoController.deleteShotById);
+
+app.post('api/v1/showtimes', showtimeController.postNewShowtime);
+/*app.get('/api/v1/showtimes', showtimeController.getAllShowtimes);
+app.get('/api/v1/showtimes/:id', showtimeController.getShowtimeById);
+app.put('/api/v1/showtimes/:id', showtimeController.updateShowtimeById);
+app.delete('/api/v1/showtimes/:id', showtimeController.deleteShowtimeById);*/
 
 module.exports = app;
 app.listen(2611, () => console.log('Express server at 2611'));

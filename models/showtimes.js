@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const showtimeSchema = new mongoose.Schema({
   theaterName: String,
+  movieName: String,
   address: {
     lane: String,
     area: String,
@@ -9,6 +10,7 @@ const showtimeSchema = new mongoose.Schema({
     pincode: String,
     phone_no: String,
   },
+  rating: String,
   time: Array,
   createdAt: Date,
   modifiedAt: Date

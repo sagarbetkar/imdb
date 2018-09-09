@@ -1,8 +1,8 @@
-const Photo = require('../models/photos');
+const Shot = require('../models/shots');
 
-exports.postNewPhoto = (req, res) => {
+exports.postNewShot = (req, res) => {
   let {
-    photo,
+    shot,
     name,
     title,
     people,
@@ -10,33 +10,33 @@ exports.postNewPhoto = (req, res) => {
     modifiedAt
   } = req.body;
 
-  var photo = new Photo({
-    photo,
+  var pic = new Shot({
+    shot,
     name,
     title,
     people,
     createdAt,
     modifiedAt
   });
-  photo.save().then((photo) => {
+  pic.save().then((pic) => {
     console.log('Added successfully');
-    res.json(photo);
+    res.json(pic);
   })
 };
 
 
-exports.getAllPhotos = (req, res) => {
-  Photo.find({}, (error, photos) => {
+exports.getAllShots = (req, res) => {
+  Shot.find({}, (error, shots) => {
     if (error) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
       });
     }
-    if (photos) {
+    if (shots) {
       res.json({
-        data: photos,
-        message: "All photos fetched",
+        data: shots,
+        message: "All shots fetched",
         status: 200
       });
     } else {
@@ -48,18 +48,18 @@ exports.getAllPhotos = (req, res) => {
   });
 };
 
-exports.getPhotoById = (req, res) => {
-  Photo.findById(req.params.id, (err, photos) => {
+exports.getShotById = (req, res) => {
+  Shot.findById(req.params.id, (err, shots) => {
     if (err) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
       });
     }
-    if (photos) {
+    if (shots) {
       res.json({
-        data: photos,
-        message: "Photo data fetched successfully",
+        data: shots,
+        message: "Shot data fetched successfully",
         status: 200
       });
     } else {
@@ -71,37 +71,37 @@ exports.getPhotoById = (req, res) => {
   });
 };
 
-exports.updatePhotoById = (req, res) => {
+exports.updateShotById = (req, res) => {
   console.log(req.body);
   const {
-    photo,
+    shot,
     name,
     title,
     people,
     createdAt,
     modifiedAt
   } = req.body;
-  Photo.update({
+  Shot.update({
     _id: req.params.id
   }, {
-    photo,
+    shot,
     name,
     title,
     people,
     createdAt,
     modifiedAt
-  }, {}, (error, photo) => {
+  }, {}, (error, shot) => {
     if (error)
       res.json({
         error: error,
         status: 500
       });
     console.log(error);
-    res.json(photo);
+    res.json(shot);
   });
 };
 
-exports.deletePhotoById  = (req, res) => {
+exports.deleteShotById  = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.id
   }, (error, deleteId) => {
