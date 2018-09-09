@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const photoSchema = new mongoose.Schema({
-  photo: String,
+  shot: String,
   name: String,
   title: String,
   people : String,
