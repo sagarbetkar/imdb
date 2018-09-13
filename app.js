@@ -29,6 +29,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 mongoose.connect('mongodb://localhost:27017/imdb');
+/*mongoose.connect(process.env.MONGODB_URL);*/
 mongoose.connection.on('error', (error) => console.error(error));
 mongoose.connection.on('open', () => console.log("success in connecting to mongodb"));
 
@@ -69,4 +70,3 @@ app.put('/api/v1/showtimes/:id', showtimeController.updateShowtimeById);
 app.delete('/api/v1/showtimes/:id', showtimeController.deleteShowtimeById);*/
 
 module.exports = app;
-app.listen(2611, () => console.log('Express server at 2611'));
