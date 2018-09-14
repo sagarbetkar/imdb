@@ -12,6 +12,9 @@ const movieSchema = new mongoose.Schema({
     actor: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
     characterName: String,
   }],
+  photourl: [{
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Photo' }
+  }]
 //  stars: [actorSchema],
   storyline: String,
   keywords: [String],
