@@ -38,11 +38,11 @@ exports.postNewMovie = (req, res) => {
     });
   }).catch(function (err) {
     if (err) {
-      console.log(err)
+      console.log(err);
       res.json({
         message: 'Server error',
         status: 500
-      })
+      });
     }
   });
 };
@@ -50,10 +50,10 @@ exports.postNewMovie = (req, res) => {
 exports.getAllMovies = (req, res) => {
   var query = Movie.find()
   if (req.query.title) {
-    query.where({ title: req.query.title })
+    query.where({ title: req.query.title });
   }
-  query.select('title status -_id')
-  query.limit(req.query.limit || 10)
+  query.select('title status -_id');
+  query.limit(req.query.limit || 10);
   query.exec((error, movies) => {
     if (error) {
       res.json({
@@ -106,8 +106,9 @@ exports.getMovieById = (req, res) => {
 exports.updateMovieById = (req, res) => {
   console.log(req.body);
   const {
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
     writer,
