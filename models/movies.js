@@ -13,8 +13,8 @@ const movieSchema = new mongoose.Schema({
     characterName: String,
   }],
   photourl: [{
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Photo' }
-  }]
+     type: mongoose.Schema.Types.ObjectId, ref: 'Photo'
+  }],
 //  stars: [actorSchema],
   storyline: String,
   keywords: [String],
