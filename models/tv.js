@@ -12,7 +12,7 @@ const tvSchema = new mongoose.Schema({
     characterName: String,
   }],
   episode : [{
-    season: Number,
+    season: { type: mongoose.Schema.Types.ObjectId, ref: 'Episode' },
     episodeurl: { type: mongoose.Schema.Types.ObjectId, ref: 'Episode' },
   }],
   photourl: [{

@@ -82,9 +82,7 @@ exports.updateUserById = (req, res) => {
     email,
     password,
     facebook,
-    google,
-    createdAt,
-    modifiedAt
+    google
   } = req.body;
   User.update({
     _id: req.params.id
@@ -94,9 +92,7 @@ exports.updateUserById = (req, res) => {
     email,
     password,
     facebook,
-    google,
-    createdAt,
-    modifiedAt
+    google
   }, {}, (error, user) => {
     if (error)
       res.json({
