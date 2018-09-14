@@ -16,16 +16,10 @@ const movieSchema = new mongoose.Schema({
   storyline: String,
   keywords: [String],
   genres: [String],
-  createdAt: Date,
-  modifiedAt: Date,
+  createdAt: { type: Date, default: Date.now},
+  modifiedAt: { type: Date, default: Date.now},
   status: { type:String, enum: ['pre-released', 'released', 'banned'], default: 'pre-released'},
 });
-
-movieSchema.pre('save', function(next){
-  this.modifiedAt = Date.now();
-  next();
-});
-
 
 const Movie = mongoose.model('Movie', movieSchema);
 
