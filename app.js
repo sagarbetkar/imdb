@@ -1,27 +1,30 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 /**
  * Controllers (route handlers).
  */
-  const celebController = require('./controllers/celebs');
-  const movieController = require('./controllers/movies');
-  const showtimeController = require('./controllers/showtimes');
-  const tvController = require('./controllers/tv');
-  const photoController = require('./controllers/photos');
-  const userController = require('./controllers/users');
+const celebController = require('./controllers/celebs');
+const movieController = require('./controllers/movies');
+const showtimeController = require('./controllers/showtimes');
+const tvController = require('./controllers/tv');
+const photoController = require('./controllers/photos');
+const userController = require('./controllers/users');
+const episodeController = require('./controllers/episodes');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -63,10 +66,16 @@ app.get('/api/v1/photos/:id', photoController.getShotById);
 app.put('/api/v1/photos/:id', photoController.updateShotById);
 app.delete('/api/v1/photos/:id', photoController.deleteShotById);
 
-app.post('api/v1/showtimes', showtimeController.postNewShowtime);
+app.post('/api/v1/showtimes', showtimeController.postNewShowtime);
 app.get('/api/v1/showtimes', showtimeController.getAllShowtimes);
 app.get('/api/v1/showtimes/:id', showtimeController.getShowtimeById);
 app.put('/api/v1/showtimes/:id', showtimeController.updateShowtimeById);
 app.delete('/api/v1/showtimes/:id', showtimeController.deleteShowtimeById);
+
+app.post('/api/v1/episodes', episodeController.postNewEpisode);
+app.get('/api/v1/episodes', episodeController.getAllEpisodes);
+app.get('/api/v1/episodes/:id', episodeController.getEpisodeById);
+app.put('/api/v1/episodes/:id', episodeController.updateEpisodeById);
+app.delete('/api/v1/episodes/:id', episodeController.deleteEpisodeById);
 
 module.exports = app;
