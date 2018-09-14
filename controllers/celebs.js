@@ -3,7 +3,7 @@ const Celeb = require('../models/celebs');
 exports.postNewCeleb = (req, res) => {
   let {
     name,
-    pic,
+    picurl,
     dob,
     height,
     bio,
@@ -14,7 +14,7 @@ exports.postNewCeleb = (req, res) => {
 
   var celeb = new Celeb({
     name,
-    pic,
+    picurl,
     dob,
     height,
     bio,
@@ -22,14 +22,31 @@ exports.postNewCeleb = (req, res) => {
     createdAt,
     modifiedAt
   });
-  celeb.save().then((celeb) => {
+  celeb.save().then((newCeleb) => {
     console.log('Added successfully');
-    res.json(celeb);
-  })
+    res.json({
+      message: `Added ${newCeleb.title} successfully`,
+      status: 200
+    });
+  }).catch(function (err) {
+    if (err) {
+      console.log(err);
+      res.json({
+        message: 'Server error',
+        status: 500
+      });
+    }
+  });
 };
 
 exports.getAllCelebs = (req, res) => {
-  Celeb.find({}, (error, celebs) => {
+  var query = Movie.find()
+  if (req.query.name) {
+    query.where({ title: req.query.name });
+  }
+  query.select('name -_id');
+  query.limit(req.query.limit || 10);
+  query.exec((error, celebs) => {
     if (error) {
       res.json({
         message: "Server error, Please try after some time.",
@@ -78,25 +95,21 @@ exports.updateCelebById = (req, res) => {
   console.log(req.body);
   const {
     name,
-    pic,
+    picurl,
     dob,
     height,
     bio,
-    trivia,
-    createdAt,
-    modifiedAt
+    trivia
   } = req.body;
   Celeb.update({
     _id: req.params.id
   }, {
     name,
-    pic,
+    picurl,
     dob,
     height,
     bio,
-    trivia,
-    createdAt,
-    modifiedAt
+    trivia
   }, {}, (error, celeb) => {
     if (error)
       res.json({

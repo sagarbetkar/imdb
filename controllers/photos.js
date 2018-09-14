@@ -2,26 +2,35 @@ const Shot = require('../models/shots');
 
 exports.postNewShot = (req, res) => {
   let {
-    shot,
-    name,
-    title,
-    people,
+    shoturl,
+    actor,
+    movie,
     createdAt,
     modifiedAt
   } = req.body;
 
   var pic = new Shot({
-    shot,
-    name,
-    title,
-    people,
+    shoturl,
+    actor,
+    movie,
     createdAt,
     modifiedAt
   });
   pic.save().then((pic) => {
     console.log('Added successfully');
-    res.json(pic);
-  })
+    res.json({
+      message: "Added successfully",
+      status: 200
+    });
+  }).catch(function (err) {
+    if (err) {
+      console.log(err);
+      res.json({
+        message: 'Server error',
+        status: 500
+      });
+    }
+  });
 };
 
 
@@ -74,22 +83,16 @@ exports.getShotById = (req, res) => {
 exports.updateShotById = (req, res) => {
   console.log(req.body);
   const {
-    shot,
-    name,
-    title,
-    people,
-    createdAt,
-    modifiedAt
+    shoturl,
+    actor,
+    movie
   } = req.body;
   Shot.update({
     _id: req.params.id
   }, {
-    shot,
-    name,
-    title,
-    people,
-    createdAt,
-    modifiedAt
+    shoturl,
+    actor,
+    movie
   }, {}, (error, shot) => {
     if (error)
       res.json({

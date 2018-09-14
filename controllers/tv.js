@@ -1,42 +1,65 @@
 const Tv = require('../models/tv');
 
 exports.postNewTv = (req, res) => {
-  let{
-    poster,
-    trailer,
+  let {
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
-    writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
     createdAt,
-    modifiedAt
+    modifiedAt,
+    status
   } = req.body;
 
   var tv = new Tv({
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
-    writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
     createdAt,
-    modifiedAt
+    modifiedAt,
+    status
   });
   Tv.save().then((tv) => {
     console.log('Added successfully');
-    res.json(tv);
+    res.json({
+      message: "Added successfully",
+      status: 200
+    });
+  }).catch(function(err) {
+    if (err) {
+      console.log(err);
+      res.json({
+        message: 'Server error',
+        status: 500
+      });
+    }
   });
 };
 
 exports.getAllTv = (req, res) => {
-  Tv.find({}, (error, tv) => {
-    if(error) {
+  var query = Movie.find()
+  if (req.query.title) {
+    query.where({ title: req.query.title });
+  }
+  query.select('title status -_id');
+  query.limit(req.query.limit || 10);
+  query.exec ((error, tv) => {
+    if (error) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
@@ -83,32 +106,34 @@ exports.getTvById = (req, res) => {
 exports.updateTvById = (req, res) => {
   console.log(req.body);
   const {
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
-    writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
-    createdAt,
-    modifiedAt
+    status
   } = req.body;
   Tv.update({
     _id: req.params.id
   }, {
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
-    writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
-    createdAt,
-    modifiedAt
+    status
   }, {}, (error, tv) => {
     if (error)
       res.json({

@@ -64,9 +64,9 @@ app.put('/api/v1/photos/:id', photoController.updateShotById);
 app.delete('/api/v1/photos/:id', photoController.deleteShotById);
 
 app.post('api/v1/showtimes', showtimeController.postNewShowtime);
-/*app.get('/api/v1/showtimes', showtimeController.getAllShowtimes);
+app.get('/api/v1/showtimes', showtimeController.getAllShowtimes);
 app.get('/api/v1/showtimes/:id', showtimeController.getShowtimeById);
 app.put('/api/v1/showtimes/:id', showtimeController.updateShowtimeById);
-app.delete('/api/v1/showtimes/:id', showtimeController.deleteShowtimeById);*/
+app.delete('/api/v1/showtimes/:id', showtimeController.deleteShowtimeById);
 
 module.exports = app;
