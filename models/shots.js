@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 
 const photoSchema = new mongoose.Schema({
-  shot: String,
-  name: String,
-  title: String,
-  people : String,
-  createdAt: Date,
-  modifiedAt: Date
+  shoturl: String,
+  actor: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
+  movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
+  createdAt: { type: Date, default: Date.now},
+  modifiedAt: { type: Date, default: Date.now}
 });
 
 const Photo = mongoose.model('Photo', photoSchema);
