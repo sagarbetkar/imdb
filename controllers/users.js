@@ -1,31 +1,41 @@
-const User = require('../models/users');
+const User = require("../models/users");
 
-exports.postNewUser = (req, res) => {
-  let {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
-    createdAt,
-    modifiedAt
-  } = req.body;
-
-  var user = new User({
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
-    createdAt,
-    modifiedAt
-  });
-  user.save().then((user) => {
-    console.log('Added successfully');
-    res.json(user);
-  })
+exports.postNewUser = (req, res, next) => {
+  if (req.body.username && req.body.email && req.body.password) {
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (err) {
+        return next({
+          message: err,
+          status: 500
+        });
+      }
+      if (user) {
+        return res.json({
+          message: "User already exists",
+          status: 406
+        });
+      } else {
+        const user = new User({
+          username: req.body.username,
+          email: req.body.email,
+          password: req.body.password
+        });
+        user.save(err => {
+          if (err) {
+            return next({
+              message: "User registration failed",
+              err: err,
+              status: 500
+            });
+          }
+          res.json({
+            message: "User registered successfully",
+            status: 200
+          });
+        });
+      }
+    });
+  }
 };
 
 exports.getAllUsers = (req, res) => {
@@ -36,7 +46,7 @@ exports.getAllUsers = (req, res) => {
         status: 500
       });
     }
-    if (users) {
+    if (users == []) {
       res.json({
         data: users,
         message: "All users fetched",
@@ -52,69 +62,74 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.getUserById = (req, res) => {
-  User.findById(req.params.id, (err, users) => {
-    if (err) {
-      res.json({
-        message: "Server error, Please try after some time.",
-        status: 500
-      });
-    }
-    if (users) {
-      res.json({
-        data: users,
-        message: "User data fetched successfully",
-        status: 200
-      });
-    } else {
-      res.json({
-        message: "No data found",
-        status: 200
-      });
-    }
-  });
+  if (req.params.id) {
+    User.findById(req.params.id, (err, users) => {
+      if (err) {
+        res.json({
+          message: "Server error, Please try after some time.",
+          status: 500
+        });
+      }
+      if (users == []) {
+        res.json({
+          data: users,
+          message: "User data fetched successfully",
+          status: 200
+        });
+      } else {
+        res.json({
+          message: "No data found",
+          status: 200
+        });
+      }
+    });
+  } else {
+    res.json({
+      message: "Id not present",
+      status: 401
+    });
+  }
 };
 
 exports.updateUserById = (req, res) => {
-  console.log(req.body);
-  const {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google
-  } = req.body;
-  User.update({
-    _id: req.params.id
-  }, {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google
-  }, {}, (error, user) => {
-    if (error)
-      res.json({
-        error: error,
-        status: 500
-      });
-    console.log(error);
-    res.json(user);
-  });
+  if (req.body.username && req.params.id) {
+    User.findOne({ _id: req.params.id }, (err, user) => {
+      if (err) {
+        res.json({
+          message: "User not found",
+          status: 500
+        });
+      } else {
+        user.username = req.body.username;
+        user.save(err => {
+          if (err) {
+            res.json({
+              status: 500,
+              err: err,
+              message: "Update failed"
+            });
+          }
+          res.json({
+            message: "User updated successfully",
+            data: user,
+            status: 2000
+          });
+        });
+      }
+    });
+  }
 };
 
 exports.deleteUserById = (req, res) => {
-  User.findOneAndDelete({
-    _id: req.params.id
-  }, (error, deleteId) => {
+  User.findOneAndDelete({ _id: req.params.id }, (error, deleteId) => {
     if (error)
       res.json({
         error: error,
         status: 500
       });
     res.json({
-      message: "Deleted successfully"
+      message: "Deleted successfully",
+      status: 200
     });
   });
 };
