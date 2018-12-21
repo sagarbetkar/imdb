@@ -105,7 +105,7 @@ exports.updateShotById = (req, res) => {
 };
 
 exports.deleteShotById = (req, res) => {
-  User.findOneAndDelete(
+  Shot.findOneAndDelete(
     {
       _id: req.params.id
     },
