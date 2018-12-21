@@ -14,7 +14,6 @@ exports.postNewEpisode = (req, res) => {
     createdAt,
     modifiedAt
   } = req.body;
-
   var episode = new Episode({
     seriesName,
     title,
@@ -28,24 +27,20 @@ exports.postNewEpisode = (req, res) => {
     createdAt,
     modifiedAt
   });
-  episode
-    .save()
-    .then((newEpisode) => {
-      console.log('Added successfully');
+  console.log(episode);
+  episode.save((err) => {
+    if (err) {
       res.json({
-        message: 'Added ${newEpisode.title} successfully',
-        status: 200
+        message: 'Server error',
+        error: err,
+        status: 500
       });
-    })
-    .catch(function(err) {
-      if (err) {
-        console.log(err);
-        res.json({
-          message: 'Server error',
-          status: 500
-        });
-      }
+    }
+    res.json({
+      message: 'Added successfully',
+      status: 200
     });
+  });
 };
 
 exports.getAllEpisodes = (req, res) => {
@@ -123,7 +118,7 @@ exports.updateEpisodeById = (req, res) => {
 };
 
 exports.deleteEpisodeById = (req, res) => {
-  User.findOneAndDelete({_id: req.params.id}, (error, deleteId) => {
+  Episode.findOneAndDelete({_id: req.params.id}, (error, deleteId) => {
     if (error)
       res.json({
         error: error,
