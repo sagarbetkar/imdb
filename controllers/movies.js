@@ -33,9 +33,8 @@ exports.postNewMovie = (req, res) => {
   movie
     .save()
     .then((newMovie) => {
-      console.log('Added successfully');
       res.json({
-        message: `Added ${newMovie.title} successfully`,
+        message: 'Added successfully',
         status: 200
       });
     })
