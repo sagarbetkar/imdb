@@ -1,8 +1,8 @@
-const User = require("../models/users");
+const User = require('../models/users');
 
 exports.postNewUser = (req, res, next) => {
   if (req.body.username && req.body.email && req.body.password) {
-    User.findOne({ email: req.body.email }, (err, user) => {
+    User.findOne({email: req.body.email}, (err, user) => {
       if (err) {
         return next({
           message: err,
@@ -11,7 +11,7 @@ exports.postNewUser = (req, res, next) => {
       }
       if (user) {
         return res.json({
-          message: "User already exists",
+          message: 'User already exists',
           status: 406
         });
       } else {
@@ -20,16 +20,16 @@ exports.postNewUser = (req, res, next) => {
           email: req.body.email,
           password: req.body.password
         });
-        user.save(err => {
+        user.save((err) => {
           if (err) {
             return next({
-              message: "User registration failed",
+              message: 'User registration failed',
               err: err,
               status: 500
             });
           }
           res.json({
-            message: "User registered successfully",
+            message: 'User registered successfully',
             status: 200
           });
         });
@@ -40,21 +40,22 @@ exports.postNewUser = (req, res, next) => {
 
 exports.getAllUsers = (req, res) => {
   User.find({}, (error, users) => {
+    console.log(users);
     if (error) {
       res.json({
-        message: "Server error, Please try after some time.",
+        message: 'Server error, Please try after some time.',
         status: 500
       });
     }
-    if (users == []) {
+    if (users.length != 0) {
       res.json({
         data: users,
-        message: "All users fetched",
+        message: 'All users fetched',
         status: 200
       });
     } else {
       res.json({
-        message: "No data found",
+        message: 'No data found',
         status: 200
       });
     }
@@ -66,26 +67,26 @@ exports.getUserById = (req, res) => {
     User.findById(req.params.id, (err, users) => {
       if (err) {
         res.json({
-          message: "Server error, Please try after some time.",
+          message: 'Server error, Please try after some time.',
           status: 500
         });
       }
-      if (users == []) {
+      if (users.lenght != 0) {
         res.json({
           data: users,
-          message: "User data fetched successfully",
+          message: 'User data fetched successfully',
           status: 200
         });
       } else {
         res.json({
-          message: "No data found",
+          message: 'No data found',
           status: 200
         });
       }
     });
   } else {
     res.json({
-      message: "Id not present",
+      message: 'Id not present',
       status: 401
     });
   }
@@ -93,26 +94,26 @@ exports.getUserById = (req, res) => {
 
 exports.updateUserById = (req, res) => {
   if (req.body.username && req.params.id) {
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({_id: req.params.id}, (err, user) => {
       if (err) {
         res.json({
-          message: "User not found",
+          message: 'User not found',
           status: 500
         });
       } else {
         user.username = req.body.username;
-        user.save(err => {
+        user.save((err) => {
           if (err) {
             res.json({
               status: 500,
               err: err,
-              message: "Update failed"
+              message: 'Update failed'
             });
           }
           res.json({
-            message: "User updated successfully",
+            message: 'User updated successfully',
             data: user,
-            status: 2000
+            status: 200
           });
         });
       }
@@ -121,14 +122,14 @@ exports.updateUserById = (req, res) => {
 };
 
 exports.deleteUserById = (req, res) => {
-  User.findOneAndDelete({ _id: req.params.id }, (error, deleteId) => {
+  User.findOneAndDelete({_id: req.params.id}, (error, deleteId) => {
     if (error)
       res.json({
         error: error,
         status: 500
       });
     res.json({
-      message: "Deleted successfully",
+      message: 'Deleted successfully',
       status: 200
     });
   });
