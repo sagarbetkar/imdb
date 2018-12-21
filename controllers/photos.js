@@ -1,14 +1,12 @@
 const Shot = require('../models/shots');
 
 exports.postNewShot = (req, res) => {
-  let {shoturl, actor, movie, createdAt, modifiedAt} = req.body;
+  let {shoturl, actor, movie} = req.body;
 
   var pic = new Shot({
     shoturl,
     actor,
-    movie,
-    createdAt,
-    modifiedAt
+    movie
   });
   pic
     .save()
