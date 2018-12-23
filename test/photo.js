@@ -30,6 +30,22 @@ describe('Shots', () => {
   });
 
   describe('POST /api/v1/photos', () => {
+    it('it should not post a shot', (done) => {
+      let shot = {
+        shoturl: 'http://shoturl/mediaviewer',
+        actor: ['Carol Kane', 'Jane Krakowski', 'Ellie Kemper', 'Tituss Burgess']
+      };
+      chai
+        .request(app)
+        .post('/api/v1/photos')
+        .send(shot)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Incomplete Inputs');
+          done();
+        });
+    });
     it('it should post a shot', (done) => {
       let shot = {
         shoturl: 'http://shoturl/mediaviewer',

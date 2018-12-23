@@ -21,6 +21,11 @@ exports.postNewCeleb = (req, res) => {
         });
       }
     });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 200
+    });
   }
 };
 

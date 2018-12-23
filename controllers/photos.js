@@ -1,31 +1,38 @@
 const Shot = require('../models/shots');
 
 exports.postNewShot = (req, res) => {
-  let {shoturl, actor, movie} = req.body;
+  if (req.body.shoturl && req.body.actor && req.body.movie) {
+    let {shoturl, actor, movie} = req.body;
 
-  var pic = new Shot({
-    shoturl,
-    actor,
-    movie
-  });
-  pic
-    .save()
-    .then((pic) => {
-      console.log('Added successfully');
-      res.json({
-        message: 'Added successfully',
-        status: 200
-      });
-    })
-    .catch(function(err) {
-      if (err) {
-        console.log(err);
-        res.json({
-          message: 'Server error',
-          status: 500
-        });
-      }
+    var pic = new Shot({
+      shoturl,
+      actor,
+      movie
     });
+    pic
+      .save()
+      .then((pic) => {
+        console.log('Added successfully');
+        res.json({
+          message: 'Added successfully',
+          status: 200
+        });
+      })
+      .catch(function(err) {
+        if (err) {
+          console.log(err);
+          res.json({
+            message: 'Server error',
+            status: 500
+          });
+        }
+      });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 200
+    });
+  }
 };
 
 exports.getAllShots = (req, res) => {

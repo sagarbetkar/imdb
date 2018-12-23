@@ -30,12 +30,25 @@ describe('Celebs', () => {
   });
 
   describe('POST /api/v1/celebs', () => {
+    it('it should not post a celeb without the height', (done) => {
+      let celeb = {name: 'Sylvia Neal', picurl: 'http://picurl/32*32', dob: 'Fri Jul 24 1998 10:11:14 GMT+0000 (UTC)'};
+      chai
+        .request(app)
+        .post('/api/v1/celebs')
+        .send(celeb)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Incomplete Inputs');
+          done();
+        });
+    });
     it('it should post a celeb', (done) => {
       let celeb = {
         name: 'Sylvia Neal',
         picurl: 'http://picurl/32*32',
         dob: 'Fri Jul 24 1998 10:11:14 GMT+0000 (UTC)',
-        height: '2.7'
+        height: 7
       };
       chai
         .request(app)
@@ -58,15 +71,12 @@ describe('Celebs', () => {
         dob: 'Thu Jul 30 2015 16:09:57 GMT+0000 (UTC)',
         height: 4
       });
-      console.log(celeb);
       celeb.save((err, celeb) => {
-        console.log(celeb);
         chai
           .request(app)
           .get('/api/v1/celebs/' + celeb.id)
           .send(celeb)
           .end((err, res) => {
-            console.log(res.body.data);
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.data.should.have.property('name');
@@ -88,7 +98,6 @@ describe('Celebs', () => {
         height: 7
       });
       celeb.save((err, celeb) => {
-        console.log(celeb);
         chai
           .request(app)
           .put('/api/v1/celebs/' + celeb.id)

@@ -30,6 +30,37 @@ describe('Movies', () => {
   });
 
   describe('POST /api/v1/movies', () => {
+    it('it should not post a movie', (done) => {
+      let movie = {
+        title: 'Aquaman',
+        posterUrl: 'http://posterUrl.com/folder',
+        trailerUrl: 'http://posterUrl.com/trailer',
+        description:
+          'Arthur Curry learns that he is the heir to the underwater kingdom of Atlantis, and must step forward to lead his people and be a hero to the world. ',
+        director: 'James Wan',
+        writer: [' David Leslie', 'Johnson-McGoldrick'],
+        stars: [
+          {actor: 'Jason Momoa', characterName: 'Arthur'},
+          {actor: 'Amber Heard', characterName: 'Mera'},
+          {actor: 'Willem Dafoe', characterName: 'Vulko'}
+        ],
+        photourl: ['http://posterUrl.com/pic1', 'http://posterUrl.com/pic2'], //  stars: [actorSchema],
+        storyline:
+          'Arthur Curry learns that he is the heir to the underwater kingdom of Atlantis, and must step forward to lead his people and be a hero to the world.',
+        keywords: ['atlantis', 'based on comic', 'dc comics', 'superhero', 'one word title']
+      };
+      chai
+        .request(app)
+        .post('/api/v1/movies')
+        .send(movie)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status').eql(200);
+          res.body.should.have.property('message').eql('Incomplete Inputs');
+          done();
+        });
+    });
     it('it should post a movie', (done) => {
       let movie = {
         title: 'Aquaman',
@@ -110,7 +141,6 @@ describe('Movies', () => {
           .get('/api/v1/movies/' + movie.id)
           .send(movie)
           .end((err, res) => {
-            console.log(res.body.data);
             res.should.have.status(200);
             res.body.should.be.a('object');
             /* res.body.data.should.have.property('');

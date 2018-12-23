@@ -29,12 +29,35 @@ describe('Episodes', () => {
     });
   });
 
-  describe('POST /api/v1/celebs', () => {
-    it('it should post a celeb', (done) => {
+  describe('POST /api/v1/episodes', () => {
+    it('it should not post a episode', (done) => {
       let episode = {
         seriesName: 'GOT',
         title: 'Everything',
         posterurl: 'http://posterurl.com/folder',
+        season: 2,
+        description: 'something anything',
+        director: 'Sagar Betkar',
+        stars: [{actor: ['sb', 'vm', 'vr', 'rs', 'ts', 'mg'], charaterName: ['sb', 'vm', 'vr', 'rs', 'ts', 'mg']}],
+        storyLine: 'something anything'
+      };
+      chai
+        .request(app)
+        .post('/api/v1/episodes')
+        .send(episode)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Incomplete Inputs');
+          done();
+        });
+    });
+
+    it('it should post a episode', (done) => {
+      let episode = {
+        seriesName: 'GOT',
+        title: 'Everything',
+        posterUrl: 'http://posterurl.com/folder',
         season: 2,
         description: 'something anything',
         director: 'Sagar Betkar',
@@ -44,7 +67,7 @@ describe('Episodes', () => {
             charaterName: ['sb', 'vm', 'vr', 'rs', 'ts', 'mg']
           }
         ],
-        storyLine: 'something anything',
+        storyline: 'something anything',
         genres: ['life', 'Nature']
       };
       chai
@@ -52,6 +75,7 @@ describe('Episodes', () => {
         .post('/api/v1/episodes')
         .send(episode)
         .end((err, res) => {
+          console.log(res.body);
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql(200);
@@ -84,7 +108,6 @@ describe('Episodes', () => {
           .get('/api/v1/episodes/' + episode.id)
           .send(episode)
           .end((err, res) => {
-            console.log(res.body.data);
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.data.should.have.property('seriesName');

@@ -1,52 +1,55 @@
 const Movie = require('../models/movies');
 
 exports.postNewMovie = (req, res) => {
-  let {
-    title,
-    posterUrl,
-    trailerUrl,
-    description,
-    director,
-    writer,
-    stars,
-    storyline,
-    keywords,
-    genres,
-    createdAt,
-    modifiedAt
-  } = req.body;
+  if (
+    req.body.title &&
+    req.body.posterUrl &&
+    req.body.trailerUrl &&
+    req.body.description &&
+    req.body.director &&
+    req.body.writer &&
+    req.body.stars &&
+    req.body.storyline &&
+    req.body.keywords &&
+    req.body.genres
+  ) {
+    let {title, posterUrl, trailerUrl, description, director, writer, stars, storyline, keywords, genres} = req.body;
 
-  var movie = new Movie({
-    title,
-    posterUrl,
-    trailerUrl,
-    description,
-    director,
-    writer,
-    stars,
-    storyline,
-    keywords,
-    genres,
-    createdAt,
-    modifiedAt
-  });
-  movie
-    .save()
-    .then((newMovie) => {
-      res.json({
-        message: 'Added successfully',
-        status: 200
-      });
-    })
-    .catch(function(err) {
-      if (err) {
-        console.log(err);
-        res.json({
-          message: 'Server error',
-          status: 500
-        });
-      }
+    var movie = new Movie({
+      title,
+      posterUrl,
+      trailerUrl,
+      description,
+      director,
+      writer,
+      stars,
+      storyline,
+      keywords,
+      genres
     });
+    movie
+      .save()
+      .then((newMovie) => {
+        res.json({
+          message: 'Added successfully',
+          status: 200
+        });
+      })
+      .catch(function(err) {
+        if (err) {
+          console.log(err);
+          res.json({
+            message: 'Server error',
+            status: 500
+          });
+        }
+      });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 200
+    });
+  }
 };
 
 exports.getAllMovies = (req, res) => {

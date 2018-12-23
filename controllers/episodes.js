@@ -1,46 +1,48 @@
 const Episode = require('../models/episodes');
 
 exports.postNewEpisode = (req, res) => {
-  let {
-    seriesName,
-    title,
-    posterUrl,
-    season,
-    description,
-    director,
-    stars,
-    storyline,
-    genres,
-    createdAt,
-    modifiedAt
-  } = req.body;
-  var episode = new Episode({
-    seriesName,
-    title,
-    posterUrl,
-    season,
-    description,
-    director,
-    stars,
-    storyline,
-    genres,
-    createdAt,
-    modifiedAt
-  });
-  console.log(episode);
-  episode.save((err) => {
-    if (err) {
+  if (
+    req.body.seriesName &&
+    req.body.title &&
+    req.body.posterUrl &&
+    req.body.season &&
+    req.body.description &&
+    req.body.director &&
+    req.body.stars &&
+    req.body.storyline &&
+    req.body.genres
+  ) {
+    let {seriesName, title, posterUrl, season, description, director, stars, storyline, genres} = req.body;
+    var episode = new Episode({
+      seriesName,
+      title,
+      posterUrl,
+      season,
+      description,
+      director,
+      stars,
+      storyline,
+      genres
+    });
+    episode.save((err) => {
+      if (err) {
+        res.json({
+          message: 'Server error',
+          error: err,
+          status: 500
+        });
+      }
       res.json({
-        message: 'Server error',
-        error: err,
-        status: 500
+        message: 'Added successfully',
+        status: 200
       });
-    }
+    });
+  } else {
     res.json({
-      message: 'Added successfully',
+      message: 'Incomplete Inputs',
       status: 200
     });
-  });
+  }
 };
 
 exports.getAllEpisodes = (req, res) => {

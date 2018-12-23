@@ -30,6 +30,19 @@ describe('Users', () => {
   });
 
   describe('POST /api/v1/users', () => {
+    it('it should not post a user', (done) => {
+      let user = {username: 'Spence', email: 'spence.lynn@xoggle.io'};
+      chai
+        .request(app)
+        .post('/api/v1/users')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Incomplete Inputs');
+          done();
+        });
+    });
     it('it should post a user', (done) => {
       let user = {
         username: 'Spence',
@@ -58,7 +71,6 @@ describe('Users', () => {
           .get('/api/v1/users/' + user.id)
           .send(user)
           .end((err, res) => {
-            console.log(res.body.data);
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.data.should.have.property('username');
@@ -78,7 +90,6 @@ describe('Users', () => {
         password: 'commodo'
       });
       user.save((err, user) => {
-        console.log(user);
         chai
           .request(app)
           .put('/api/v1/users/' + user.id)

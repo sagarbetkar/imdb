@@ -35,6 +35,11 @@ exports.postNewUser = (req, res, next) => {
         });
       }
     });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 200
+    });
   }
 };
 
