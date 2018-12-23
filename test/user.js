@@ -99,7 +99,14 @@ describe('Users', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('User updated successfully');
             res.body.should.have.property('status').eql(200);
-            done();
+            chai
+              .request(app)
+              .get('/api/v1/users/' + user.id)
+              .send(user)
+              .end((err, res) => {
+                res.body.data.should.have.property('username').eql('sagar');
+                done();
+              });
           });
       });
     });

@@ -102,7 +102,7 @@ describe('Shots', () => {
           .put('/api/v1/photos/' + shot.id)
           .send({
             shoturl: 'http://shoturl/mediaviewer',
-            actor: ['Ellie Kemper'],
+            actor: ['Sagar Betkar'],
             movie: 'Unbreakable Kimmy Schmidt'
           })
           .end((err, res) => {
@@ -110,7 +110,14 @@ describe('Shots', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('Shot updated');
             res.body.should.have.property('status').eql(200);
-            done();
+            chai
+              .request(app)
+              .get('/api/v1/photos/' + shot.id)
+              .send(shot)
+              .end((err, res) => {
+                res.body.data.should.have.property('actor').eql(['Sagar Betkar']);
+                done();
+              });
           });
       });
     });

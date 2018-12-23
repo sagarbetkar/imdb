@@ -109,7 +109,6 @@ exports.getMovieById = (req, res) => {
 };
 
 exports.updateMovieById = (req, res) => {
-  console.log(req.body);
   const {title, posterUrl, trailerUrl, description, director, writer, stars, storyline, keywords, genres} = req.body;
   Movie.update(
     {
@@ -134,7 +133,6 @@ exports.updateMovieById = (req, res) => {
           error: error,
           status: 500
         });
-      console.log(error);
       res.json({
         message: 'Movie updated',
         status: 200

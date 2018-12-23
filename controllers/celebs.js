@@ -91,7 +91,7 @@ exports.updateCelebById = (req, res) => {
         celeb.picurl = req.body.picurl;
         celeb.dob = req.body.dob;
         celeb.height = req.body.height;
-        celeb.save((err) => {
+        celeb.save((err, celeb) => {
           if (err) {
             res.json({
               status: 500,

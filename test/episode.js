@@ -146,7 +146,7 @@ describe('Episodes', () => {
             seriesName: 'The Flash',
             title: 'Everything',
             posterUrl: 'http://posterurl.com/folder',
-            season: 3,
+            season: 1,
             description: 'something anything',
             director: 'Sagar Betkar',
             stars: [
@@ -155,15 +155,24 @@ describe('Episodes', () => {
                 charaterName: ['sb', 'vm', 'vr', 'rs', 'ts', 'mg']
               }
             ],
-            storyline: 'something anything',
-            genres: ['life', 'Nature']
+            storyline: 'anything something',
+            genres: ['life', 'Nature', 'Action']
           })
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('Update Successfully');
             res.body.should.have.property('status').eql(200);
-            done();
+            chai
+              .request(app)
+              .get('/api/v1/episodes/' + episode.id)
+              .send(episode)
+              .end((err, res) => {
+                res.body.data.should.have.property('season').eql(1);
+                res.body.data.should.have.property('storyline').eql('anything something');
+                res.body.data.should.have.property('genres').eql(['life', 'Nature', 'Action']);
+                done();
+              });
           });
       });
     });

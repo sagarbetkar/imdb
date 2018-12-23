@@ -105,14 +105,21 @@ describe('Celebs', () => {
             name: 'Carroll Reed',
             picurl: 'http://picurl/32*32',
             dob: 'Wed Feb 17 1971 07:51:26 GMT+0000 (UTC)',
-            height: 7
+            height: 6
           })
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('celeb update successfully');
             res.body.should.have.property('status').eql(200);
-            done();
+            chai
+              .request(app)
+              .get('/api/v1/celebs/' + celeb.id)
+              .send(celeb)
+              .end((err, res) => {
+                res.body.data.should.have.property('height').eql(6);
+                done();
+              });
           });
       });
     });

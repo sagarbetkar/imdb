@@ -187,7 +187,7 @@ describe('Movies', () => {
           .request(app)
           .put('/api/v1/movies/' + movie.id)
           .send({
-            title: 'Aquaman',
+            title: 'Justice League',
             posterUrl: 'http://posterUrl.com/folder',
             trailerUrl: 'http://posterUrl.com/trailer',
             description:
@@ -220,7 +220,14 @@ describe('Movies', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('message').eql('Movie updated');
             res.body.should.have.property('status').eql(200);
-            done();
+            chai
+              .request(app)
+              .get('/api/v1/movies/' + movie.id)
+              .send(movie)
+              .end((err, res) => {
+                res.body.data.should.have.property('title').eql('Justice League');
+                done();
+              });
           });
       });
     });
